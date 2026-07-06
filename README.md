@@ -6,7 +6,7 @@ Good day, Team! The all-new centralized iMerch Suite Portal is now officially LI
 You can now access all our core internal tools, reports, and registries in one secure, unified dashboard engineered for faster workflows.
 
 🌐 BOOKMARK THE LINK NOW:
-👉 https://github.io
+👉 [https://github.io](https://imerchmedia-commits.github.io/iMerchSuitePortal/)
 
 🗂️ WHAT'S INSIDE:
 1. 💻 Corporate Website
