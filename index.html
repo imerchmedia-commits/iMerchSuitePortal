@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,23 +8,39 @@
     <!-- 1. Favicon Integration -->
     <link rel="icon" type="image/png" href="favicon.png">
     
-    <!-- 2. Kumpletong CDN link para sa Bootstrap Icons Library -->
-    <link rel="stylesheet" href="https://jsdelivr.net">
+    <!-- 2. FontAwesome Icons Library (Fast & Lightweight) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
+        :root[data-theme="dark"] {
             --primary-color: #0f172a;
             --accent-color: #ff3333;
-            --card-bg: rgba(15, 23, 42, 0.75); /* Glassmorphism dark background */
+            --card-bg: rgba(15, 23, 42, 0.75);
             --card-border: rgba(255, 255, 255, 0.15);
             --text-main: #ffffff;
             --text-muted: #cbd5e1;
+            --navbar-bg: rgba(15, 23, 42, 0.85);
+            --footer-bg: rgba(15, 23, 42, 0.9);
+            --clock-bg: rgba(255, 255, 255, 0.08);
+            --bg-overlay: linear-gradient(rgba(10, 15, 30, 0.65), rgba(10, 15, 30, 0.85));
+        }
+
+        :root[data-theme="light"] {
+            --primary-color: #f8fafc;
+            --accent-color: #e11d48;
+            --card-bg: rgba(255, 255, 255, 0.82);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --navbar-bg: rgba(255, 255, 255, 0.88);
+            --footer-bg: rgba(255, 255, 255, 0.92);
+            --clock-bg: rgba(0, 0, 0, 0.05);
+            --bg-overlay: linear-gradient(rgba(240, 244, 248, 0.75), rgba(240, 244, 248, 0.90));
         }
 
         body {
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            /* Background Image using background2_2.png with Dark Gradient Overlay for readability */
-            background: linear-gradient(rgba(10, 15, 30, 0.65), rgba(10, 15, 30, 0.85)), url('background2.png') no-repeat center center fixed;
+            background: var(--bg-overlay), url('background2.png') no-repeat center center fixed;
             background-size: cover;
             color: var(--text-main);
             margin: 0;
@@ -32,14 +48,16 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         /* Top Navigation Bar */
         .navbar {
-            background-color: rgba(15, 23, 42, 0.8);
+            background-color: var(--navbar-bg);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px 40px;
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 12px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -55,9 +73,34 @@
         }
 
         .logo-area img {
-            height: 48px;
+            height: 46px;
             width: auto;
             object-fit: contain;
+        }
+
+        .nav-right-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Live Clock Badge */
+        .live-clock {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-main);
+            background-color: var(--clock-bg);
+            border: 1px solid var(--card-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        .live-clock i {
+            color: var(--accent-color);
         }
 
         .system-status {
@@ -81,6 +124,28 @@
             animation: pulse 2s infinite;
         }
 
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background: var(--clock-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.1);
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+        }
+
         /* Main Container */
         .container {
             max-width: 1200px;
@@ -99,16 +164,15 @@
         .welcome-section h1 {
             font-size: 2.3rem;
             font-weight: 700;
-            color: #ffffff;
+            color: var(--text-main);
             margin: 15px 0 10px 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .welcome-section p {
             font-size: 1.1rem;
             color: var(--text-muted);
             margin: 0;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
         /* Responsive Dashboard Grid Layout */
@@ -128,12 +192,13 @@
             padding: 35px 25px;
             text-decoration: none;
             color: var(--text-main);
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
+            will-change: transform;
         }
 
         .portal-card::before {
@@ -149,9 +214,8 @@
 
         .portal-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 25px 35px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 35px rgba(0, 0, 0, 0.4);
             border-color: rgba(255, 255, 255, 0.4);
-            background-color: rgba(15, 23, 42, 0.85);
         }
 
         .portal-card:hover::before {
@@ -174,19 +238,13 @@
         .manager-assessment-logo-wrapper {
             width: auto;
             height: 65px;
-            filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.3));
-            transition: all 0.3s ease;
+            filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25));
+            transition: transform 0.3s ease;
             object-fit: contain;
         }
 
-        .portal-card:hover .website-logo-wrapper,
-        .portal-card:hover .incident-logo-wrapper,
-        .portal-card:hover .assessment-logo-wrapper,
-        .portal-card:hover .bigkis-logo-wrapper,
-        .portal-card:hover .employee-logo-wrapper,
-        .portal-card:hover .manager-assessment-logo-wrapper {
+        .portal-card:hover img {
             transform: scale(1.08);
-            filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.5));
         }
 
         /* Card Content Typography */
@@ -194,7 +252,7 @@
             font-size: 1.35rem;
             font-weight: 600;
             margin: 0 0 12px 0;
-            color: #ffffff;
+            color: var(--text-main);
         }
 
         .portal-card p {
@@ -209,19 +267,12 @@
         .action-link {
             font-size: 0.9rem;
             font-weight: 600;
-            color: #ff6b6b;
+            color: var(--accent-color);
             display: flex;
             align-items: center;
             gap: 6px;
             margin-top: auto;
         }
-
-        .portal-card:nth-child(1):hover .action-link { color: #60a5fa; }
-        .portal-card:nth-child(2):hover .action-link { color: #f87171; }
-        .portal-card:nth-child(3):hover .action-link { color: #34d399; }
-        .portal-card:nth-child(4):hover .action-link { color: #fbbf24; }
-        .portal-card:nth-child(5):hover .action-link { color: #22d3ee; }
-        .portal-card:nth-child(6):hover .action-link { color: #a78bfa; }
 
         .action-link i {
             font-size: 14px;
@@ -234,13 +285,13 @@
 
         /* Footer Alignment and Sizing */
         footer {
-            background-color: rgba(15, 23, 42, 0.9);
+            background-color: var(--footer-bg);
             backdrop-filter: blur(10px);
-            color: #94a3b8;
+            color: var(--text-muted);
             text-align: center;
             padding: 35px 20px;
             font-size: 0.85rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--card-border);
             margin-top: 50px;
             line-height: 1.6;
         }
@@ -261,8 +312,12 @@
             50% { opacity: 0.4; }
         }
 
-        @media (max-width: 640px) {
-            .navbar { padding: 15px 20px; justify-content: center; flex-direction: column; gap: 10px; }
+        @media (max-width: 768px) {
+            .navbar { padding: 12px 20px; flex-direction: column; gap: 12px; }
+            .nav-right-controls { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+            .live-clock { order: 1; flex-grow: 1; justify-content: center; }
+            .system-status { order: 2; }
+            .theme-toggle-btn { order: 3; }
             .container { padding: 30px 20px; }
             .welcome-section h1 { font-size: 1.8rem; }
         }
@@ -275,9 +330,22 @@
         <div class="logo-area">
             <img src="logo.png" alt="iMerch Media Inc. Logo">
         </div>
-        <div class="system-status">
-            <div class="status-dot"></div>
-            All Systems Operational
+        <div class="nav-right-controls">
+            <!-- Live Clock & Date Badge -->
+            <div class="live-clock" id="liveClock">
+                <i class="fa-regular fa-clock"></i>
+                <span id="dateTimeText">Loading time...</span>
+            </div>
+
+            <div class="system-status">
+                <div class="status-dot"></div>
+                All Systems Operational
+            </div>
+
+            <!-- Dark / Light Theme Toggle Button -->
+            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Switch Light/Dark Mode">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
         </div>
     </nav>
 
@@ -299,7 +367,7 @@
                 <h2>Corporate Website</h2>
                 <p>Launch the official corporate web environment, brand directory, and public operational frameworks.</p>
                 <div class="action-link">
-                    Launch Site <i class="bi bi-arrow-right"></i>
+                    Launch Site <i class="fa-solid fa-arrow-right"></i>
                 </div>
             </a>
 
@@ -311,19 +379,19 @@
                 <h2>Incident Report Portal</h2>
                 <p>Access the online reporting platform to document logs, operations anomalies, and situational status updates.</p>
                 <div class="action-link">
-                    Open Portal <i class="bi bi-arrow-right"></i>
+                    Open Portal <i class="fa-solid fa-arrow-right"></i>
                 </div>
             </a>
 
             <!-- PORTAL 3: Performance Assessment Form Link -->
             <a href="https://imerchmedia-commits.github.io/iMerch-Monthly-Performance-Assessment-form/index.html" target="_blank" class="portal-card">
                 <div class="custom-image-container">
-                    <img src="assessment2.png" alt="Assessment Logo" class="assessment-logo-wrapper">
+                    <img src="assessment.png" alt="Assessment Logo" class="assessment-logo-wrapper">
                 </div>
                 <h2>Assessment Portal</h2>
                 <p>Log into the evaluation form interface to manage monthly key metrics and process operational appraisals.</p>
                 <div class="action-link">
-                    Open Form <i class="bi bi-arrow-right"></i>
+                    Open Form <i class="fa-solid fa-arrow-right"></i>
                 </div>
             </a>
 
@@ -335,7 +403,7 @@
                 <h2>iMerch Bigkis</h2>
                 <p>Access the official corporate news hub, newsletter publications, media bulletins, and engagement issues.</p>
                 <div class="action-link">
-                    Open News Hub <i class="bi bi-arrow-right"></i>
+                    Open News Hub <i class="fa-solid fa-arrow-right"></i>
                 </div>
             </a>
 
@@ -347,7 +415,7 @@
                 <h2>Employee Updates</h2>
                 <p>Access the secure registration form portal to modify employee data logs, personnel contact sheets, and 2026 profile registries.</p>
                 <div class="action-link">
-                    Open Updates <i class="bi bi-arrow-right"></i>
+                    Open Updates <i class="fa-solid fa-arrow-right"></i>
                 </div>
             </a>
 
@@ -359,7 +427,7 @@
                 <h2>Managers Assessment</h2>
                 <p>Access management-level evaluation metrics, performance appraisal dashboards, and leadership tracking tools.</p>
                 <div class="action-link">
-                    Open Portal <i class="bi bi-arrow-right"></i>
+                    Open Portal <i class="fa-solid fa-arrow-right"></i>
                 </div>
             </a>
 
@@ -372,5 +440,54 @@
         <div class="footer-copyright">&copy; 2026 iMerch Media Inc. | System Developed By Ron Sarmenta</div>
     </footer>
 
+    <!-- JavaScript for Live 12hr Clock & Theme Switcher -->
+    <script>
+        // 1. Live Date and 12-Hour Time Logic
+        function updateClock() {
+            const now = new Date();
+            
+            const options = { month: 'short', day: 'numeric', year: 'numeric' };
+            const dateStr = now.toLocaleDateString('en-US', options);
+            
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            const timeStr = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
+            
+            document.getElementById('dateTimeText').textContent = `${dateStr} — ${timeStr}`;
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 2. Theme Toggle Logic
+        const htmlElement = document.documentElement;
+        const themeIcon = document.getElementById('themeIcon');
+        
+        const savedTheme = localStorage.getItem('imerch_theme') || 'dark';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        function toggleTheme() {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('imerch_theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            if (theme === 'light') {
+                themeIcon.className = 'fa-solid fa-sun';
+            } else {
+                themeIcon.className = 'fa-solid fa-moon';
+            }
+        }
+    </script>
 </body>
 </html>
